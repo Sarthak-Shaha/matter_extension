@@ -37,7 +37,8 @@ jobs:
           rm SimplicityCommander-Linux.zip
           FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
           if [ -n "$FILE" ]; then
-            tar -xzvf "$FILE" -C /opt/silabs/simplicity-commander
+            echo "$FILE"
+            tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
           else
             echo "File not found"
           fi
