@@ -44,21 +44,27 @@ jobs:
 
       - name: Move extension to its proper location
         run: |
-          mkdir /opt/silabs/simplicity_sdk/extension
+          mkdir -p ${SISDK_ROOT}/extension/
           cd ..
-          cp -r matter_extension /opt/silabs/simplicity_sdk/extension
+          cp -r matter_extension ${SISDK_ROOT}/extension
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
         run: |
           export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
-          slc configuration --sdk /opt/silabs/simplicity_sdk
-          slc signature trust  --extension-path "/opt/silabs/simplicity_sdk/extension/matter_extension/"
-          slc signature trust --sdk /opt/silabs/simplicity_sdk
-          slc generate --daemon -d /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -p /opt/silabs/simplicity_sdk/extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
+          slc configuration --sdk ${SISDK_ROOT}
+          slc signature trust  --extension-path "${SISDK_ROOT}/extension/matter_extension/"
+          slc signature trust --sdk ${SISDK_ROOT}
+          slc generate --daemon -d ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread -p ${SISDK_ROOT}extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
 
       - name: SLC Build
         run: |
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j8
+          make all -C ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighting-app-thread
+          path: ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread
+          
 
