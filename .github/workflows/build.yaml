@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
+      image: ghcr.io/siliconlabssoftware/simplicity-sdk
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
   
@@ -26,6 +26,12 @@ jobs:
 #        uses: jfrog/setup-jfrog-cli@v4
 #        with:
 #          version: latest
+
+      - name: Install simplicity Commander
+        run: |
+          wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
+          unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
+          rm SimplicityCommander-Linux.zip
 
       - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
         uses: carlosperate/arm-none-eabi-gcc-action@v1
@@ -44,27 +50,22 @@ jobs:
 
       - name: Move extension to its proper location
         run: |
-          mkdir -p ${SISDK_ROOT}/extension/
-          cd ..
-          cp -r matter_extension ${SISDK_ROOT}/extension
+          mkdir -p ${SISDK_ROOT}/extension/matter_extension
+          mkdir -p ${SISDK_ROOT}/extension/wiseconnect
+          rsync -av ./* ${SISDK_ROOT}/extension/matter_extension --exclude sisdk --exclude ci --exclude jenkins --exclude Jenkinsfile --exclude third_party/matter_sdk/third_party  --exclude third_party/simplicity_sdk --exclude third_party/wifi_sdk --exclude third_party/wiseconnect-wifi-bt-sdk
+          rsync -av ${WIFI_SDK_ROOT} ${SISDK_ROOT}/extension/wiseconnect
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
         run: |
           export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
-          slc configuration --sdk ${SISDK_ROOT}
-          slc signature trust  --extension-path "${SISDK_ROOT}/extension/matter_extension/"
-          slc signature trust --sdk ${SISDK_ROOT}
-          slc generate --daemon -d ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread -p ${SISDK_ROOT}extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
+          slc configuration --sdk /opt/silabs/simplicity_sdk
+          slc signature trust  --extension-path "/opt/silabs/simplicity_sdk/extension/matter_extension/"
+          slc signature trust --sdk /opt/silabs/simplicity_sdk
+          slc generate --daemon -d /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -p /opt/silabs/simplicity_sdk/extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
 
       - name: SLC Build
         run: |
+          export POST_BUILD_EXE=/opt/silabs/simplicity-commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j8
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: lighting-app-thread
-          path: ${SISDK_ROOT}/extension/matter_extension/brd4187c/lighting-app-thread
-          
-
+          make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j13
