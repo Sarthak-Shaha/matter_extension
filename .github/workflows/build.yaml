@@ -32,6 +32,12 @@ jobs:
           wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
           unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
           rm SimplicityCommander-Linux.zip
+          FILE=$(find /opt/silabs/simplicity-commander -name "*Commander_linux_x86_64*.zip")
+          if [ -n "$FILE" ]; then
+            unzip "$FILE" -d /opt/silabs/simplicity-commander
+          else
+            echo "File not found"
+          fi
 
       - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
         uses: carlosperate/arm-none-eabi-gcc-action@v1
@@ -66,6 +72,6 @@ jobs:
 
       - name: SLC Build
         run: |
-          export POST_BUILD_EXE=/opt/silabs/simplicity-commander
+          export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j13
