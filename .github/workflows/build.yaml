@@ -1,0 +1,64 @@
+name: Build Examples
+
+on:
+    push:
+    pull_request:
+
+jobs:
+  thread_build:
+    name: EFR32 Thread
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
+      volumes:
+        - "/tmp/bloat_reports:/tmp/bloat_reports"
+  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          # TODO: don't check out simplicity sdk and wifi sdk as a submodule
+
+#      - name: Jfrog CLI setup
+#        uses: jfrog/setup-jfrog-cli@v4
+#        with:
+#          version: latest
+
+      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        id: arm-none-eabi-gcc-action
+        with:
+          release: '12.2.Rel1'
+
+      - name: Install ZAP
+        run: |
+          wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
+          unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
+          rm zap-linux-x64.zip
+
+      - run: pwd
+      - run: ls
+
+      - name: Move extension to its proper location
+        run: |
+          mkdir /opt/silabs/simplicity_sdk/extension
+          cd ..
+          cp -r matter_extension /opt/silabs/simplicity_sdk/extension
+# TODO unnecessary copy of matter_extension to simplicity_sdk
+
+      - name: SLC Generate
+        run: |
+          export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
+          slc configuration --sdk /opt/silabs/simplicity_sdk
+          slc signature trust  --extension-path "/opt/silabs/simplicity_sdk/extension/matter_extension/"
+          slc signature trust --sdk /opt/silabs/simplicity_sdk
+          slc generate --daemon -d /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -p /opt/silabs/simplicity_sdk/extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
+
+      - name: SLC Build
+        run: |
+          export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
+          make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j8
+
