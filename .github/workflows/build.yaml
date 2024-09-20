@@ -19,7 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules_exclude: |
+            third_party/simplicity_sdk
+            third_party/wifi_Sdk
+            third_party/matter_private
           # TODO: don't check out simplicity sdk and wifi sdk as a submodule
 
 #      - name: Jfrog CLI setup
