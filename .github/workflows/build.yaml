@@ -12,7 +12,7 @@ jobs:
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, thermostat, window-app]
         board: [brd4187c, brd4316a, brd4337a]
         ncp: [thread]
-    name: ${{ matrix.board }} ${{ matrix.app }}-${{ matrix.ncp }} 
+    name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
 
     
     container:
@@ -80,6 +80,7 @@ jobs:
 
       - name: SLC Build
         run: |
+          export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
           make all -C ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
 
