@@ -9,9 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, thermostat, window-app]
+        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
         board: [brd4187c, brd4316a, brd4337a]
-        ncp: [thread]
+        ncp: [thread, 917-soc]
+        include:
+          - board: [brd4187c, brd4316a]
+            app: thermostat
+            ncp: [thread, 917-soc]
+
+            
     name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
 
     
