@@ -10,7 +10,7 @@ jobs:
     name: EFR32 Thread
     strategy:
       matrix:
-        board: [brd4187c, brd4316c, brd4337a]
+        board: [brd4187c, brd4316a, brd4337a]
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, thermostat, window-app]
         ncp: [thread]
 
