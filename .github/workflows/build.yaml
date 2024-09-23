@@ -95,6 +95,9 @@ jobs:
       - run: |
           cd ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
           cd build
+          ls
+          cd debug
+          ls
 
       - uses: actions/upload-artifact@v4
         with:
