@@ -22,9 +22,7 @@ jobs:
             app: thermostat
             ncp: thread
 
-            
     name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
-
     
     container:
       image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
@@ -92,9 +90,15 @@ jobs:
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
           make all -C ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
 
+      - run: pwd
+      - run: ls ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
+      - run: |
+          cd ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
+          cd build
+
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.app }}-${{ matrix.ncp }}
-          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
+          name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }}
+          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/${{ matrix.app }}-${{ matrix.ncp }}.s37
           
 
