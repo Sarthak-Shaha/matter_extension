@@ -7,12 +7,12 @@ on:
 jobs:
   thread_build:
     runs-on: ubuntu-latest
-    name: EFR32 Thread
     strategy:
       matrix:
-        board: [brd4187c, brd4316a, brd4337a]
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, thermostat, window-app]
+        board: [brd4187c, brd4316a, brd4337a]
         ncp: [thread]
+    name: ${{ matrix.board }} ${{ matrix.app }}-${{ matrix.ncp }} 
 
     
     container:
@@ -25,12 +25,28 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-          # TODO: don't check out simplicity sdk and wifi sdk as a submodule
+          submodules_exclude: |
+            third_party/simplicity_sdk
+            third_party/wifi_sdk
+            third_party/matter_private
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
 #        with:
 #          version: latest
+
+      - name: Install simplicity Commander
+        run: |
+          wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
+          unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
+          rm SimplicityCommander-Linux.zip
+          FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
+          if [ -n "$FILE" ]; then
+            echo "$FILE"
+            tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
+          else
+            echo "File not found"
+          fi
 
       - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
         uses: carlosperate/arm-none-eabi-gcc-action@v1
