@@ -15,8 +15,10 @@ jobs:
         include:
           - board: brd4187c
             app: thermostat
-          - board: brd4187c
+            ncp: thread
+          - board: brd4316a
             app: thermostat
+            ncp: thread
 
             
     name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
