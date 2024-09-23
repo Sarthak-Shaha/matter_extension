@@ -1,4 +1,4 @@
-name: Build Examples
+name: EFR32 Build
 
 on:
     push:
@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # Every app builds for every board and ncp
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
         board: [brd4187c, brd4316a, brd4337a]
         ncp: [thread]
+        # Build only specific combinations of app, board and ncp
         include:
           - board: brd4187c
             app: thermostat
@@ -34,10 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-          submodules_exclude: |
-            third_party/simplicity_sdk
-            third_party/wifi_sdk
-            third_party/matter_private
+# TODO: don't check out simplicity sdk and wifi sdk
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
@@ -96,6 +95,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}-${{ matrix.ncp }}
-          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
+          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
           
 
