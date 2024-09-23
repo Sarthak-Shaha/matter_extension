@@ -11,11 +11,12 @@ jobs:
       matrix:
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
         board: [brd4187c, brd4316a, brd4337a]
-        ncp: [thread, 917-soc]
+        ncp: [thread]
         include:
-          - board: [brd4187c, brd4316a]
+          - board: brd4187c
             app: thermostat
-            ncp: [thread, 917-soc]
+          - board: brd4187c
+            app: thermostat
 
             
     name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
