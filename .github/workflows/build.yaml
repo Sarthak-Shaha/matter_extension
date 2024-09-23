@@ -60,16 +60,16 @@ jobs:
           slc configuration --sdk ${SISDK_ROOT}
           slc signature trust  --extension-path "${SISDK_ROOT}/extension/matter_extension/"
           slc signature trust --sdk ${SISDK_ROOT}
-          slc generate --daemon -d ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.ncp }}-${{ matrix.app }} -p ${SISDK_ROOT}extension/matter_extension/slc/sample-app/lighting-app/efr32/${{ matrix.ncp }}-${{ matrix.app }}.slcp --with ${{ matrix.board }} --generator-timeout=180
+          slc generate --daemon -d ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${SISDK_ROOT}extension/matter_extension/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
 
       - name: SLC Build
         run: |
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.ncp }}-${{ matrix.app }} -f ${{ matrix.ncp }}-${{ matrix.app }}.Makefile -j8
+          make all -C ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.ncp }}-${{ matrix.app }}
-          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.ncp }}-${{ matrix.app }}
+          name: ${{ matrix.app }}-${{ matrix.ncp }}
+          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
           
 
