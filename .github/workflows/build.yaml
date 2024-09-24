@@ -69,31 +69,33 @@ jobs:
       - run: pwd
       - run: ls
 
-      - name: Move extension to its proper location
+      - name: Set up environment variables and move extension to its proper location
         run: |
-          mkdir -p ${SISDK_ROOT}/extension/
+          echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
+          mkdir -p ${{ env.simplicitySdkPath }}/extension/
           cd ..
-          cp -r matter_extension ${SISDK_ROOT}/extension
+          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
+          echo "matterExtensionPath=${SISDK_ROOT}/extension/matter_extension" >> $GITHUB_ENV
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
         run: |
           export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
-          slc configuration --sdk ${SISDK_ROOT}
-          slc signature trust  --extension-path "${SISDK_ROOT}/extension/matter_extension/"
-          slc signature trust --sdk ${SISDK_ROOT}
-          slc generate --daemon -d ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${SISDK_ROOT}extension/matter_extension/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
+          slc configuration --sdk ${{ env.simplicitySdkPath }}
+          slc signature trust  --extension-path ${{ env.matterExtensionPath }}
+          slc signature trust --sdk ${{ env.simplicitySdkPath }}
+          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
 
       - name: SLC Build
         run: |
           export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
+          make all -C ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
 
       - run: pwd
-      - run: ls ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
+      - run: ls ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
       - run: |
-          cd ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
+          cd ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}
           cd build/debug
           ls
           pwd
@@ -101,6 +103,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }}
-          path: /opt/silabs/simplicity_sdk/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
+          path: ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
           
 
