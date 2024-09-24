@@ -75,7 +75,7 @@ jobs:
           mkdir -p ${{ env.simplicitySdkPath }}/extension/
           cd ..
           cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
-          echo "matterExtensionPath=${SISDK_ROOT}/extension/matter_extension" >> $GITHUB_ENV
+          echo "matterExtensionPath=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
