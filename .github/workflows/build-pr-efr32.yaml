@@ -93,10 +93,10 @@ jobs:
       - name: Set up environment variables and move extension to its proper location
         run: |
           echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
-          mkdir -p ${{ env.simplicitySdkPath }}/extension/
+          mkdir -p ${{SISDK_ROOT}}/extension
           cd ..
-          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
-          echo "matterExtensionPath=${SISDK_ROOT}extension/matter_extension/" >> $GITHUB_ENV
+          cp -r matter_extension ${{SISDK_ROOT}}/extension
+          echo "matterExtensionPath=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
