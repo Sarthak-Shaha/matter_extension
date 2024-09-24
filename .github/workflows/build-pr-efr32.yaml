@@ -1,0 +1,121 @@
+name: EFR32 Build
+
+on:
+    push:
+    pull_request:
+
+jobs:
+  thread_build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Every app builds for every board and ncp
+        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
+        board: [brd4187c, brd4316a, brd4337a]
+        ncp: [thread]
+        # Build only specific combinations of app, board and ncp
+        include:
+          - board: brd4187c
+            app: thermostat
+            ncp: thread
+          - board: brd4316a
+            app: thermostat
+            ncp: thread
+          - board: brd4187c
+            app: thermostat
+            ncp: 917-ncp
+          - board: brd4187c
+            app: thermostat
+            ncp: rs911x
+          - board: brd4187c
+            app: thermostat
+            ncp: wf200
+          - board: brd4187c
+            app: lock-app
+            ncp: 917-ncp
+          - board: brd4187c
+            app: lock-app
+            ncp: rs911x
+          - board: brd4187c
+            app: lock-app
+            ncp: wf200  
+          - board: brd4187c
+            app: window-app
+            ncp: 917-ncp          
+
+    name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
+    
+    container:
+      image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
+      volumes:
+        - "/tmp/bloat_reports:/tmp/bloat_reports"
+  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+# TODO: don't check out simplicity sdk and wifi sdk
+
+#      - name: Jfrog CLI setup
+#        uses: jfrog/setup-jfrog-cli@v4
+#        with:
+#          version: latest
+
+      - name: Install simplicity Commander
+        run: |
+          wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
+          unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
+          rm SimplicityCommander-Linux.zip
+          FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
+          if [ -n "$FILE" ]; then
+            echo "$FILE"
+            tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
+          else
+            echo "File not found"
+          fi
+
+      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        id: arm-none-eabi-gcc-action
+        with:
+          release: '12.2.Rel1'
+
+      - name: Install ZAP
+        run: |
+          wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
+          unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
+          rm zap-linux-x64.zip
+
+      - run: pwd
+      - run: ls
+
+      - name: Set up environment variables and move extension to its proper location
+        run: |
+          echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
+          mkdir -p ${{ env.simplicitySdkPath }}/extension/
+          cd ..
+          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
+          echo "matterExtensionPath=${SISDK_ROOT}extension/matter_extension/" >> $GITHUB_ENV
+          echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
+# TODO unnecessary copy of matter_extension to simplicity_sdk
+
+      - name: SLC Generate
+        run: |
+          slc configuration --sdk ${{ env.simplicitySdkPath }}
+          slc signature trust --extension-path "${{ env.matterExtensionPath }}"
+          slc signature trust --sdk ${{ env.simplicitySdkPath }}
+          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
+
+      - name: Build
+        run: |
+          export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
+          export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
+          make all -C ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }}
+          path: ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
+          
+
