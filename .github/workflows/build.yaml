@@ -83,7 +83,7 @@ jobs:
       - name: SLC Generate
         run: |
           slc configuration --sdk ${{ env.simplicitySdkPath }}
-          slc signature trust  --extension-path ${{ env.matterExtensionPath }}
+          slc signature trust --extension-path "${{ env.matterExtensionPath }}"
           slc signature trust --sdk ${{ env.simplicitySdkPath }}
           slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
 
