@@ -101,6 +101,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }}
-          path: ${SISDK_ROOT}/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
+          path: /opt/silabs/simplicity_sdk/extension/matter_extension/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
           
 
