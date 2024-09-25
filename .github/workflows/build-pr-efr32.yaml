@@ -51,7 +51,6 @@ jobs:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
   
     steps:
-      - run: pwd
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -104,6 +103,8 @@ jobs:
         run: |
           mv /opt/silabs/wifi_sdk ${{ env.simplicitySdkPath }}/extension
           echo "wifiSdkPath=${{ env.simplicitySdkPath }}extension/wifi_sdk" >> $GITHUB_ENV
+          mv /opt/silabs/wiseconnect-wifi-bt-sdk ${{ env.simplicitySdkPath }}/extension
+          echo "wiseconnectSdkPath=${{ env.simplicitySdkPath }}extension/wiseconnect-wifi-bt-sdk" >> $GITHUB_ENV
 
       - name: SLC Generate
         run: |
