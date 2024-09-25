@@ -55,7 +55,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
 # TODO don't check out simplicity_sdk, wifi_sdk, wiseconnect-bt-sdk and matter_private
 
 #      - name: Jfrog CLI setup
