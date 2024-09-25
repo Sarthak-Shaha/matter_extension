@@ -87,16 +87,16 @@ jobs:
           unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
           rm zap-linux-x64.zip
 
-      - run: pwd
-      - run: ls
-
-      - name: Set up environment variables and move extension to its proper location
+      - name: Set up Simplicity SDK environment variable 
         run: |
           echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
-          mkdir -p ${SISDK_ROOT}/extension
+
+      - name: Copy matter_extension to simplicity_sdk and set Matter Extension Environment Variable
+        run: |
+          mkdir -p ${{ env.simplicitySdkPath }}/extension
           cd ..
-          cp -r matter_extension ${SISDK_ROOT}/extension
-          echo "matterExtensionPath=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
+          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
+          echo "matterExtensionPath=${{ env.simplicitySdkPath }}extension/matter_extension" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
