@@ -55,7 +55,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Checkout submodules
-        run: python slc/checkout_submodules_for_studio.py
+        run: |
+          pwd
+          python slc/checkout_submodules_for_studio.py
+          cd third_party
+          pwd
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
