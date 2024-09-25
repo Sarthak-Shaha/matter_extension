@@ -53,15 +53,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
-      - name: Checkout submodules
-        run: |
-          ls
-          python slc/checkout_submodules_for_studio.py
-          cd third_party
-          ls
-          cd mattter_sdk
-          ls
+# TODO don't check out simplicity_sdk, wifi_sdk, wiseconnect-bt-sdk and matter_private
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
