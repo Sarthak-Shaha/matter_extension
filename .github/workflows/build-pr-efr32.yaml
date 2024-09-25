@@ -57,11 +57,11 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v5
         with:
-        python-version: '3.9'
-        cache: 'pip' # caching pip dependencies
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
 
       - name: Checkout submodules
-        run: python3 slc/checkout_submodules.py
+        run: python slc/checkout_submodules.py
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
