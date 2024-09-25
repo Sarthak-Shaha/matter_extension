@@ -53,9 +53,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Setup python
+        uses: actions/setup-python@v5
         with:
-          submodules: 'true'
-# TODO: don't check out simplicity sdk and wifi sdk
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+
+      - name: Checkout submodules
+        run: python3 slc/checkout_submodules.py
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
