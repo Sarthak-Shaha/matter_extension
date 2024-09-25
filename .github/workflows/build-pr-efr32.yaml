@@ -86,7 +86,7 @@ jobs:
           wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
           unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
           rm zap-linux-x64.zip
-
+ 
       - name: Set up Simplicity SDK environment variable 
         run: |
           echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
