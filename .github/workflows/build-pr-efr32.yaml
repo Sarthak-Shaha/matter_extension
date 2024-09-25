@@ -56,10 +56,12 @@ jobs:
 
       - name: Checkout submodules
         run: |
-          pwd
+          ls
           python slc/checkout_submodules_for_studio.py
           cd third_party
-          pwd
+          ls
+          cd mattter_sdk
+          ls
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
