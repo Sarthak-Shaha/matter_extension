@@ -98,7 +98,7 @@ jobs:
         run: |
           mkdir -p ${{ env.simplicitySdkPath }}/extension
           cd ..
-          mv matter_extension ${{ env.simplicitySdkPath }}/extension
+          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
           echo "matterExtensionPath=${{ env.simplicitySdkPath }}extension/matter_extension" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
 
