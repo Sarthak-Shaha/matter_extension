@@ -53,11 +53,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
 
       - name: Checkout submodules
         run: python slc/checkout_submodules_for_studio.py
