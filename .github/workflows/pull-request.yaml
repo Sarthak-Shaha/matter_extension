@@ -1,0 +1,53 @@
+name: PR Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pr_matrix:
+    strategy:
+      matrix:
+        # Every app builds for every board and ncp
+        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
+        board: [brd4187c, brd4316a, brd4337a]
+        ncp: [thread]
+        # Build only specific combinations of app, board and ncp
+        include:
+          - board: brd4187c
+            app: thermostat
+            ncp: thread
+          - board: brd4316a
+            app: thermostat
+            ncp: thread
+          - board: brd4187c
+            app: thermostat
+            ncp: 917-ncp
+          - board: brd4187c
+            app: thermostat
+            ncp: rs911x
+          - board: brd4187c
+            app: thermostat
+            ncp: wf200
+          - board: brd4187c
+            app: lock-app
+            ncp: 917-ncp
+          - board: brd4187c
+            app: lock-app
+            ncp: rs911x
+          - board: brd4187c
+            app: lock-app
+            ncp: wf200  
+          - board: brd4187c
+            app: window-app
+            ncp: 917-ncp          
+
+    name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
+
+    uses: ./.github/workflows/generate-and-build.yaml
+    with:
+      app: ${{ matrix.app }}
+      app: ${{ matrix.board }}
+      app: ${{ matrix.ncp }}
+
+      
