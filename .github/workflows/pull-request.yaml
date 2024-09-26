@@ -50,7 +50,7 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: efr32
-      extension: " "
+      extension: ''
 
 
   pr_siwx917:
