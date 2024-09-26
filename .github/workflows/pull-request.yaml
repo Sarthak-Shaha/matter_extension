@@ -14,12 +14,14 @@ jobs:
         suffix: [thread]
         # Build only specific combinations of app, board and suffix
         include:
+          # Thread boards that have thermostats
           - board: brd4187c
             app: thermostat
             suffix: thread
           - board: brd4316a
             app: thermostat
             suffix: thread
+          # Wi-Fi NCP combos
           - board: brd4187c
             app: thermostat
             suffix: 917-ncp
@@ -67,6 +69,6 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: siwx917
-      extension: ;wiseconnect3_sdk
+      extension: \;wiseconnect3_sdk
 
       
