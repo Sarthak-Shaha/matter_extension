@@ -50,6 +50,7 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: efr32
+      extension: ""
 
 
   pr_siwx917:
@@ -68,5 +69,6 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: siwx917
+      extension: ;wiseconnect3_sdk
 
       
