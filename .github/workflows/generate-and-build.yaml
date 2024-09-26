@@ -1,4 +1,4 @@
-name: EFR32 Build
+name: Build and Generate
 
 on:
   workflow_call:
@@ -14,6 +14,9 @@ on:
         type: string
       family:
         required: true
+        type: string
+      extension:
+        required: false
         type: string
 
 jobs:
@@ -81,13 +84,17 @@ jobs:
           mv /opt/silabs/wiseconnect-wifi-bt-sdk ${{ env.simplicitySdkPath }}/extension
           echo "wiseconnectSdkPath=${{ env.simplicitySdkPath }}extension/wiseconnect-wifi-bt-sdk" >> $GITHUB_ENV
 
-      - name: SLC Generate
+      - name: SLC Trust
         run: |
           slc configuration --sdk ${{ env.simplicitySdkPath }}
           slc signature trust --extension-path "${{ env.matterExtensionPath }}"
           slc signature trust --extension-path "${{ env.wifiSdkPath }}"
           slc signature trust --sdk ${{ env.simplicitySdkPath }}
-          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/efr32/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${{ inputs.board }} --generator-timeout=180
+
+      - name: SLC Generate
+        run: |
+          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${{ inputs.board }}${{ inputs.extension }} --generator-timeout=180
+
 
       - name: Build
         run: |
