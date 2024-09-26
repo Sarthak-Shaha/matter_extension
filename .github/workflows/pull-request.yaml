@@ -47,7 +47,7 @@ jobs:
     uses: ./.github/workflows/generate-and-build.yaml
     with:
       app: ${{ matrix.app }}
-      app: ${{ matrix.board }}
-      app: ${{ matrix.ncp }}
+      board: ${{ matrix.board }}
+      ncp: ${{ matrix.ncp }}
 
       
