@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  thread_pr:
+  pr_efr32:
     strategy:
       matrix:
         # Every app builds for every board and suffix
@@ -52,7 +52,7 @@ jobs:
       family: efr32
 
 
-  917_pr:
+  pr_siwx917:
     strategy:
       matrix:
         # Every app builds for every board and suffix
