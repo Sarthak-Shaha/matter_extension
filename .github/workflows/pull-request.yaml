@@ -5,49 +5,68 @@ on:
   pull_request:
 
 jobs:
-  pr_matrix:
+  thread_pr:
     strategy:
       matrix:
-        # Every app builds for every board and ncp
+        # Every app builds for every board and suffix
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
         board: [brd4187c, brd4316a, brd4337a]
-        ncp: [thread]
-        # Build only specific combinations of app, board and ncp
+        suffix: [thread]
+        # Build only specific combinations of app, board and suffix
         include:
           - board: brd4187c
             app: thermostat
-            ncp: thread
+            suffix: thread
           - board: brd4316a
             app: thermostat
-            ncp: thread
+            suffix: thread
           - board: brd4187c
             app: thermostat
-            ncp: 917-ncp
+            suffix: 917-ncp
           - board: brd4187c
             app: thermostat
-            ncp: rs911x
+            suffix: rs911x
           - board: brd4187c
             app: thermostat
-            ncp: wf200
+            suffix: wf200
           - board: brd4187c
             app: lock-app
-            ncp: 917-ncp
+            suffix: 917-ncp
           - board: brd4187c
             app: lock-app
-            ncp: rs911x
+            suffix: rs911x
           - board: brd4187c
             app: lock-app
-            ncp: wf200  
+            suffix: wf200  
           - board: brd4187c
             app: window-app
-            ncp: 917-ncp          
+            suffix: 917-ncp          
 
-    name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
+    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
 
     uses: ./.github/workflows/generate-and-build.yaml
     with:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
-      ncp: ${{ matrix.ncp }}
+      suffix: ${{ matrix.suffix }}
+      family: efr32
+
+
+  917_pr:
+    strategy:
+      matrix:
+        # Every app builds for every board and suffix
+        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
+        board: [brd4338a]
+        suffix: [917-soc]
+
+    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
+
+    uses: ./.github/workflows/generate-and-build.yaml
+    with:
+      app: ${{ matrix.app }}
+      board: ${{ matrix.board }}
+      suffix: ${{ matrix.suffix }}
+      family: siwx917
 
       
