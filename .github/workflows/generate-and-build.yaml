@@ -9,7 +9,10 @@ on:
       board:
         required: true
         type: string
-      ncp:
+      suffix:
+        required: true
+        type: string
+      family:
         required: true
         type: string
 
@@ -84,17 +87,17 @@ jobs:
           slc signature trust --extension-path "${{ env.matterExtensionPath }}"
           slc signature trust --extension-path "${{ env.wifiSdkPath }}"
           slc signature trust --sdk ${{ env.simplicitySdkPath }}
-          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/efr32/${{ inputs.app }}-${{ inputs.ncp }}.slcp --with ${{ inputs.board }} --generator-timeout=180
+          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/efr32/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${{ inputs.board }} --generator-timeout=180
 
       - name: Build
         run: |
           export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }} -f ${{ inputs.app }}-${{ inputs.ncp }}.Makefile -j8
+          make all -C ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -f ${{ inputs.app }}-${{ inputs.suffix }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.app }}-${{ inputs.ncp }} ${{ inputs.board }}
-          path: ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }}/build/debug/${{ inputs.app }}-${{ inputs.ncp }}.s37
+          name: ${{ inputs.app }}-${{ inputs.suffix }} ${{ inputs.board }}
+          path: ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }}/build/debug/${{ inputs.app }}-${{ inputs.suffix }}.s37
           
 
