@@ -84,17 +84,17 @@ jobs:
           slc signature trust --extension-path "${{ env.matterExtensionPath }}"
           slc signature trust --extension-path "${{ env.wifiSdkPath }}"
           slc signature trust --sdk ${{ env.simplicitySdkPath }}
-          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ matrix.app }}/efr32/${{ matrix.app }}-${{ matrix.ncp }}.slcp --with ${{ matrix.board }} --generator-timeout=180
+          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/efr32/${{ inputs.app }}-${{ inputs.ncp }}.slcp --with ${{ inputs.board }} --generator-timeout=180
 
       - name: Build
         run: |
           export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }} -f ${{ matrix.app }}-${{ matrix.ncp }}.Makefile -j8
+          make all -C ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }} -f ${{ inputs.app }}-${{ inputs.ncp }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }}
-          path: ${{ env.matterExtensionPath }}/${{ matrix.board }}/${{ matrix.app }}-${{ matrix.ncp }}/build/debug/${{ matrix.app }}-${{ matrix.ncp }}.s37
+          name: ${{ inputs.app }}-${{ inputs.ncp }} ${{ inputs.board }}
+          path: ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.ncp }}/build/debug/${{ inputs.app }}-${{ inputs.ncp }}.s37
           
 
