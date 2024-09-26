@@ -1,49 +1,21 @@
 name: EFR32 Build
 
 on:
-    push:
-    pull_request:
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+      board:
+        required: true
+        type: string
+      ncp:
+        required: true
+        type: string
 
 jobs:
   thread_build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Every app builds for every board and ncp
-        app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
-        board: [brd4187c, brd4316a, brd4337a]
-        ncp: [thread]
-        # Build only specific combinations of app, board and ncp
-        include:
-          - board: brd4187c
-            app: thermostat
-            ncp: thread
-          - board: brd4316a
-            app: thermostat
-            ncp: thread
-          - board: brd4187c
-            app: thermostat
-            ncp: 917-ncp
-          - board: brd4187c
-            app: thermostat
-            ncp: rs911x
-          - board: brd4187c
-            app: thermostat
-            ncp: wf200
-          - board: brd4187c
-            app: lock-app
-            ncp: 917-ncp
-          - board: brd4187c
-            app: lock-app
-            ncp: rs911x
-          - board: brd4187c
-            app: lock-app
-            ncp: wf200  
-          - board: brd4187c
-            app: window-app
-            ncp: 917-ncp          
-
-    name: ${{ matrix.app }}-${{ matrix.ncp }} ${{ matrix.board }} 
     
     container:
       image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
@@ -62,7 +34,7 @@ jobs:
 #        with:
 #          version: latest
 
-      - name: Install simplicity Commander
+      - name: Install Simplicity Commander
         run: |
           wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
           unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
