@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/siliconlabssoftware/simplicity-sdk
+      image: ghcr.io/siliconlabssoftware/matter_extension
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
   
@@ -62,9 +62,7 @@ jobs:
       - name: Move extension to its proper location
         run: |
           mkdir -p ${SISDK_ROOT}/extension/matter_extension
-          mkdir -p ${SISDK_ROOT}/extension/wiseconnect
           rsync -av ./* ${SISDK_ROOT}/extension/matter_extension --exclude sisdk --exclude ci --exclude jenkins --exclude Jenkinsfile --exclude third_party/matter_sdk/third_party  --exclude third_party/simplicity_sdk --exclude third_party/wifi_sdk --exclude third_party/wiseconnect-wifi-bt-sdk
-          rsync -av ${WIFI_SDK_ROOT} ${SISDK_ROOT}/extension/wiseconnect
 # TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
