@@ -32,6 +32,6 @@ runs:
     - name: Set ARM_GCC_DIR and POST_BUILD_EXE
       shell: bash
       run: |
-        export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-        export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
+        echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
+        echo "POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander" >> GITHUB_ENV
 
