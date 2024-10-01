@@ -33,5 +33,5 @@ runs:
       shell: bash
       run: |
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
-        echo "POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander" >> GITHUB_ENV
+        echo "POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander" >> $GITHUB_ENV
 
