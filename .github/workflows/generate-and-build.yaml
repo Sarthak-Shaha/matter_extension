@@ -57,9 +57,8 @@ jobs:
 
       - name: Build
         run: |
-          echo $ARM_GCC_DIR
-          echo ${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
+          export ARM_GCC_DIR=${{ env.ARM_GCC_DIR }}
+          export POST_BUILD_EXE=${{ env.POST_BUILD_EXE }}
           make all -C ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -f ${{ inputs.app }}-${{ inputs.suffix }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
