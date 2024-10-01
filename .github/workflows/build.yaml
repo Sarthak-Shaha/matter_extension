@@ -71,10 +71,10 @@ jobs:
           slc configuration --sdk /opt/silabs/simplicity_sdk
           slc signature trust  --extension-path "/opt/silabs/simplicity_sdk/extension/matter_extension/"
           slc signature trust --sdk /opt/silabs/simplicity_sdk
-          slc generate --daemon -d /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -p /opt/silabs/simplicity_sdk/extension/matter_extension/slc/sample-app/lighting-app/efr32/lighting-app-thread.slcp --with brd4187c --generator-timeout=180
+          slc generate --daemon -d /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/zigbee-matter-light -p /opt/silabs/simplicity_sdk/extension/matter_extension/slc/sample-app/zigbee-matter-light/efr32/zigbee-matter-light.slcp--with brd4187c --generator-timeout=180
 
       - name: SLC Build
         run: |
           export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j13
+          make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/zigbee-matter-light -f zigbee-matter-light.Makefile -j13
