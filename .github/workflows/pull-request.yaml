@@ -74,8 +74,9 @@ jobs:
     strategy:
       matrix:
         # Every app builds for every board and suffix
-        app: [zigbee-matter-light]
+        app: [zigbee-matter]
         board: [brd4187c, brd4116a, brd4117a, brd4118a]
+        suffix: [light]
 
     name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
 
