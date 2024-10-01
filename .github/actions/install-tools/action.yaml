@@ -4,6 +4,12 @@ description: Checkout submodules
 runs:
   using: "composite"
   steps:
+    - name: Install ZAP
+      shell: bash
+      run: |
+        wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
+        unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
+        rm zap-linux-x64.zip
     - name: Install Simplicity Commander
       shell: bash
       run: |
@@ -22,10 +28,9 @@ runs:
       id: arm-none-eabi-gcc-action
       with:
         release: '12.2.Rel1'
-        path-env-var: ARM_GCC_DIR
-    - name: Install ZAP
-      shell: bash
+        
+    - name: Set ARM_GCC_DIR and POST_BUILD_EXE
       run: |
-        wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
-        unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
-        rm zap-linux-x64.zip
+      export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
+      export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
+
