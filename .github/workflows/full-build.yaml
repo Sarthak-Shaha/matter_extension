@@ -1,4 +1,4 @@
-name: PR Build
+name: Full Build
 
 on:
   push:
@@ -51,6 +51,7 @@ jobs:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
+      family: efr32
 
   siwx917:
     strategy:
