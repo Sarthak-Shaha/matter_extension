@@ -22,6 +22,7 @@ runs:
       id: arm-none-eabi-gcc-action
       with:
         release: '12.2.Rel1'
+        path-env-var: ARM_GCC_DIR
     - name: Install ZAP
       shell: bash
       run: |
