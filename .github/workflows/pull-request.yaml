@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  pr_efr32:
+  efr32:
     strategy:
       matrix:
         # Every app builds for every board and suffix
@@ -45,7 +45,6 @@ jobs:
             suffix: 917-ncp          
 
     name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
-
     uses: ./.github/workflows/generate-and-build.yaml
     with:
       app: ${{ matrix.app }}
@@ -53,7 +52,7 @@ jobs:
       suffix: ${{ matrix.suffix }}
       family: efr32
 
-  pr_siwx917:
+  siwx917:
     strategy:
       matrix:
         # Every app builds for every board and suffix
@@ -70,5 +69,22 @@ jobs:
       suffix: ${{ matrix.suffix }}
       family: siwx917
       extension: \;wiseconnect3_sdk
+
+  cmp:
+    strategy:
+      matrix:
+        # Every app builds for every board and suffix
+        app: [zigbee-matter]
+        board: [brd4187c, brd4116a, brd4117a, brd4118a]
+        suffix: ["light"]      
+
+    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
+
+    uses: ./.github/workflows/generate-and-build.yaml
+    with:
+      app: ${{ matrix.app }}
+      board: ${{ matrix.board }}
+      suffix: ${{ matrix.suffix }}
+      family: efr32
 
       
