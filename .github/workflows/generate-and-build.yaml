@@ -4,16 +4,16 @@ on:
   workflow_call:
     inputs:
       app:
-        required: true
+        required: false
         type: string
       board:
-        required: true
+        required: false
         type: string
       suffix:
-        required: true
+        required: false
         type: string
       family:
-        required: true
+        required: false
         type: string
       extension:
         required: false
@@ -33,30 +33,8 @@ jobs:
           submodules: 'true'
 # TODO don't need to check out all submodules
 
-      - name: Install Simplicity Commander
-        run: |
-          wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
-          unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
-          rm SimplicityCommander-Linux.zip
-          FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
-          if [ -n "$FILE" ]; then
-            echo "$FILE"
-            tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
-          else
-            echo "File not found"
-          fi
-
-      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
-        id: arm-none-eabi-gcc-action
-        with:
-          release: '12.2.Rel1'
-
-      - name: Install ZAP
-        run: |
-          wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
-          unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
-          rm zap-linux-x64.zip
+      - name: Install tools
+        uses: ./.github/actions/install-tools
 
       - name: Copy matter_extension to simplicity_sdk and set Matter Extension Environment Variable
         run: |
