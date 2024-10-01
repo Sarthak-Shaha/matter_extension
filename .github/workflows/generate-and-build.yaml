@@ -20,25 +20,18 @@ on:
         type: string
 
 jobs:
-  thread_build:
+  build:
     runs-on: ubuntu-latest
     
     container:
-      image: ghcr.io/siliconlabssoftware/simplicity-sdk:latest
-      volumes:
-        - "/tmp/bloat_reports:/tmp/bloat_reports"
+      image: ghcr.io/siliconlabssoftware/matter_extension:latest
   
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-# TODO don't check out simplicity_sdk, wifi_sdk, wiseconnect-bt-sdk and matter_private
-
-#      - name: Jfrog CLI setup
-#        uses: jfrog/setup-jfrog-cli@v4
-#        with:
-#          version: latest
+# TODO don't need to check out all submodules
 
       - name: Install Simplicity Commander
         run: |
@@ -64,47 +57,34 @@ jobs:
           wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
           unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
           rm zap-linux-x64.zip
- 
-      - name: Set up Simplicity SDK environment variable 
-        run: |
-          echo "simplicitySdkPath=${SISDK_ROOT}" >> $GITHUB_ENV
 
       - name: Copy matter_extension to simplicity_sdk and set Matter Extension Environment Variable
         run: |
-          mkdir -p ${{ env.simplicitySdkPath }}/extension
+          mkdir -p ${SISDK_ROOT}/extension
           cd ..
-          cp -r matter_extension ${{ env.simplicitySdkPath }}/extension
-          echo "matterExtensionPath=${{ env.simplicitySdkPath }}extension/matter_extension" >> $GITHUB_ENV
+          cp -r matter_extension ${SISDK_ROOT}/extension
+          echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
-
-      - name: Copy wifi_sdk to simplicity_sdk and set Wi-Fi SDK Environment Variable
-        run: |
-          mv /opt/silabs/wifi_sdk ${{ env.simplicitySdkPath }}/extension
-          echo "wifiSdkPath=${{ env.simplicitySdkPath }}extension/wifi_sdk" >> $GITHUB_ENV
-          mv /opt/silabs/wiseconnect-wifi-bt-sdk ${{ env.simplicitySdkPath }}/extension
-          echo "wiseconnectSdkPath=${{ env.simplicitySdkPath }}extension/wiseconnect-wifi-bt-sdk" >> $GITHUB_ENV
 
       - name: SLC Trust
         run: |
-          slc configuration --sdk ${{ env.simplicitySdkPath }}
-          slc signature trust --extension-path "${{ env.matterExtensionPath }}"
-          slc signature trust --extension-path "${{ env.wifiSdkPath }}"
-          slc signature trust --sdk ${{ env.simplicitySdkPath }}
+          slc configuration --sdk ${SISDK_ROOT}
+          slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
+          slc signature trust --extension-path "${WIFI_SDK_ROOT}"
+          slc signature trust --sdk ${SISDK_ROOT}
 
       - name: SLC Generate
         run: |
-          slc generate --daemon -d ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p ${{ env.matterExtensionPath }}/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${{ inputs.board }}${{ inputs.extension }} --generator-timeout=180
-
+          slc generate --daemon -d ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p $MATTER_EXTN_ROOT/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${{ inputs.board }}${{ inputs.extension }} --generator-timeout=180
 
       - name: Build
         run: |
           export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
           export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
-          make all -C ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -f ${{ inputs.app }}-${{ inputs.suffix }}.Makefile -j8
+          make all -C ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -f ${{ inputs.app }}-${{ inputs.suffix }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.app }}-${{ inputs.suffix }} ${{ inputs.board }}
-          path: ${{ env.matterExtensionPath }}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }}/build/debug/${{ inputs.app }}-${{ inputs.suffix }}.s37
+          path: ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }}/build/debug/${{ inputs.app }}-${{ inputs.suffix }}.s37
           
-
