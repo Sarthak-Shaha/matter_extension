@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Simplicity Commander
+      shell: bash
       run: |
         wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
         unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
@@ -22,6 +23,7 @@ runs:
       with:
         release: '12.2.Rel1'
     - name: Install ZAP
+      shell: bash
       run: |
         wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
         unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
