@@ -10,7 +10,7 @@ jobs:
       matrix:
         # Every app builds for every board and suffix
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
-        board: [brd4116a, brd4117a, brd4118a, brd4121a, brd4186c, brd4187c, brd2703a, brd2704a, brd2601b, brd2608b, brd4316a, brd4317a, brd4319a, brd4337a]
+        board: [brd4116a, brd4117a, brd4118a, brd4121a, brd4186c, brd4187c, brd2703a, brd2704a, brd2601b, brd2608a, brd4316a, brd4317a, brd4319a, brd4337a]
         suffix: [thread]
         # Build only specific combinations of app, board and suffix
         include:
@@ -75,7 +75,7 @@ jobs:
     strategy:
       matrix:
         # Every app builds for every board and suffix
-        app: [zigbee-matter-light]
+        app: [zigbee-matter]
         board: [brd4187c, brd4116a, brd4117a, brd4118a]
         suffix: [light]
 
