@@ -20,11 +20,6 @@ jobs:
         with:
           submodules: 'true'
 
-#      - name: Jfrog CLI setup
-#        uses: jfrog/setup-jfrog-cli@v4
-#        with:
-#          version: latest
-
       - name: Install ZAP
         run: |
           wget https://github.com/project-chip/zap/releases/download/v2024.08.15/zap-linux-x64.zip
@@ -38,7 +33,6 @@ jobs:
         run: |
           mkdir -p ${SISDK_ROOT}/extension/matter_extension
           rsync -av ./* ${SISDK_ROOT}/extension/matter_extension --exclude sisdk --exclude ci --exclude jenkins --exclude Jenkinsfile --exclude third_party/matter_sdk/third_party  --exclude third_party/simplicity_sdk --exclude third_party/wifi_sdk --exclude third_party/wiseconnect-wifi-bt-sdk
-# TODO unnecessary copy of matter_extension to simplicity_sdk
 
       - name: SLC Generate
         run: |
