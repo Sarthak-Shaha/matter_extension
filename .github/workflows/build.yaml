@@ -36,7 +36,7 @@ jobs:
 
       - name: SLC Generate
         run: |
-          export ARM_GCC_DIR=/usr
+          export ARM_GCC_DIR=/usr/bin
           slc configuration -gcc $ARM_GCC_DIR
           export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
           slc configuration --sdk /opt/silabs/simplicity_sdk
