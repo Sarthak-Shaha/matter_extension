@@ -29,7 +29,7 @@ jobs:
       - name: Move extension to its proper location
         run: |
           mkdir -p ${SISDK_ROOT}/extension/matter_extension
-          rsync -av ./* ${SISDK_ROOT}/extension/matter_extension --exclude sisdk --exclude ci --exclude jenkins --exclude Jenkinsfile --exclude third_party/matter_sdk/third_party  --exclude third_party/simplicity_sdk --exclude third_party/wifi_sdk --exclude third_party/wiseconnect-wifi-bt-sdk
+          rsync -av ./* ${SISDK_ROOT}/extension/matter_extension --exclude sisdk --exclude ci --exclude jenkins --exclude Jenkinsfile --exclude third_party/matter_sdk/third_party  --exclude third_party/simplicity_sdk --exclude third_party/wifi_sdk --exclude third_party/wiseconnect-wifi-bt-sdk > /dev/null 2>&1
 
       - name: SLC Generate
         run: |
@@ -42,4 +42,5 @@ jobs:
 
       - name: SLC Build
         run: |
+          chmod u+x ${POST_BUILD_EXE}
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting -f lighting-app-thread.Makefile -j13
