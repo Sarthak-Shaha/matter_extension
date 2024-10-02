@@ -22,7 +22,7 @@ RUN wget https://www.silabs.com/documents/login/software/SimplicityCommander-Lin
     && : # last line
 
 # Download Simplicity SDK v2024.6.1 (a1a37fa)
-RUN wget https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.6.2-0/sisdk-sdk.zip -O /tmp/simplicity_sdk.zip \
+RUN wget https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.6.1-0/sisdk-sdk.zip -O /tmp/simplicity_sdk.zip \
     && unzip /tmp/simplicity_sdk.zip -d /tmp/simplicity_sdk \
     && rm -rf /tmp/simplicity_sdk.zip \
     # Deleting files that are not needed to save space
