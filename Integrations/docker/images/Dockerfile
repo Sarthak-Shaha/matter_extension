@@ -14,6 +14,13 @@ RUN set -x \
     && : # last line
 
 
+# TODO: figure out a way to make this a fixed version. Currently a moving target.
+RUN wget https://www.silabs.com/documents/login/software/SimplicityCommander-Linux.zip && \
+    unzip ./SimplicityCommander-Linux.zip -d /tmp && \
+    find /tmp/SimplicityCommander-Linux -name 'Commander_linux_x86_64*' -exec tar -xvjf {} -C /tmp \; && \
+    rm ./SimplicityCommander-Linux.zip \
+    && : # last line
+
 # Download Simplicity SDK v2024.6.1 (a1a37fa)
 RUN wget https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.6.1-0/sisdk-sdk.zip -O /tmp/simplicity_sdk.zip \
     && unzip /tmp/simplicity_sdk.zip -d /tmp/simplicity_sdk \
@@ -63,7 +70,6 @@ RUN set -x \
     && : # last line
 
 # Keep GSDK_ROOT name until rename transition to SISDK is completed
-ENV GSDK_ROOT=/opt/silabs/simplicity_sdk/
 ENV SISDK_ROOT=/opt/silabs/simplicity_sdk/
 ENV WISECONNECT_SDK_ROOT=/opt/silabs/wiseconnect-wifi-bt-sdk/
 ENV WIFI_SDK_ROOT=${SISDK_ROOT}/extension/wiseconnect
