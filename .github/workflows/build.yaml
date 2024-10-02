@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: ls arm -gcc
         run: |
-          ls -ll ${ARM_GCC_DIR}
+          ls -ll /user/local
       - name: Checkout
         uses: actions/checkout@v4
         with:
