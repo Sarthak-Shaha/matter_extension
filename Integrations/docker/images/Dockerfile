@@ -22,7 +22,7 @@ RUN wget https://www.silabs.com/documents/login/software/SimplicityCommander-Lin
     && : # last line
 
 # Download Simplicity SDK v2024.6.1 (a1a37fa)
-RUN wget https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.6.1-0/sisdk-sdk.zip -O /tmp/simplicity_sdk.zip \
+RUN wget https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.6.2-0/sisdk-sdk.zip -O /tmp/simplicity_sdk.zip \
     && unzip /tmp/simplicity_sdk.zip -d /tmp/simplicity_sdk \
     && rm -rf /tmp/simplicity_sdk.zip \
     # Deleting files that are not needed to save space
@@ -74,11 +74,11 @@ ENV SISDK_ROOT=/opt/silabs/simplicity_sdk/
 ENV WISECONNECT_SDK_ROOT=/opt/silabs/wiseconnect-wifi-bt-sdk/
 ENV WIFI_SDK_ROOT=${SISDK_ROOT}/extension/wiseconnect
 ENV PATH="${PATH}:/opt/silabs/slc_cli/"
-ENV POST_BUILD_EXE=/opt/Simplicity-Commander-Linux/commander/commander
+ENV POST_BUILD_EXE=/opt/SimplicityCommander-Linux/commander/commander
 ENV ARM_GCC_DIR=/usr/bin/arm-none-eabi-gcc
 ENV PATH="${PATH}:/usr/bin/arm-none-eabi-gcc/bin"
 
-COPY --from=build /tmp/Simplicity-Commander-Linux/ ${POST_BUILD_EXE}
+COPY --from=build /tmp/SimplicityCommander-Linux/ ${POST_BUILD_EXE}
 COPY --from=build /tmp/simplicity_sdk ${SISDK_ROOT}
 COPY --from=build /tmp/wiseconnect-wifi-bt-sdk/ ${WISECONNECT_SDK_ROOT}
 COPY --from=build /tmp/wifi_sdk ${WIFI_SDK_ROOT}
