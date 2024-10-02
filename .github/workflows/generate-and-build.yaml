@@ -18,13 +18,19 @@ on:
       extension:
         required: false
         type: string
+      addAppComponent:
+        required: false
+        type: string
+      removeAppComponent:
+        required: false
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     container:
-      image: ghcr.io/siliconlabssoftware/matter_extension:latest
+      image: ghcr.io/siliconlabssoftware/matter_extension_dependencies:latest
   
     steps:
       - name: Checkout
