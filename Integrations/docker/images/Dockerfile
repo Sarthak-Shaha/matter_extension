@@ -18,7 +18,6 @@ RUN wget https://www.silabs.com/documents/login/software/SimplicityCommander-Lin
     unzip ./SimplicityCommander-Linux.zip -d /tmp && \
     find /tmp/SimplicityCommander-Linux -name 'Commander_linux_x86_64*' -exec tar -xvjf {} -C /tmp/SimplicityCommander-Linux \; && \
     rm ./SimplicityCommander-Linux.zip && \
-    ls -l /tmp/ \
     && : # last line
 
 # Download Simplicity SDK v2024.6.1 (a1a37fa)
