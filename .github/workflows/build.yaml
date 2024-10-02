@@ -15,9 +15,6 @@ jobs:
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
     steps:
-      - name: ls arm -gcc
-        run: |
-          ls -ll /user/local
       - name: Checkout
         uses: actions/checkout@v4
         with:
