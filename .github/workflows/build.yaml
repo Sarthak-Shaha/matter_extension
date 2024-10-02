@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: List GCC directory
         run: |
-          ls -ll /usr/bin/arm-none-eabi-gcc
+          ls -ll /usr/bin/
       - name: Checkout
         uses: actions/checkout@v4
         with:
