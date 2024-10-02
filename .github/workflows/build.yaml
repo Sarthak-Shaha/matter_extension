@@ -17,15 +17,12 @@ jobs:
     steps:
       - name: List GCC directory
         run: |
+          which arm-none-eabi-gcc
           ls -ll /usr/bin/
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-          submodules_exclude: |
-            third_party/simplicity_sdk
-            third_party/wifi_Sdk
-            third_party/matter_private
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
@@ -57,4 +54,5 @@ jobs:
 
       - name: SLC Build
         run: |
+          export ARM_GCC_DIR=/usr/bin
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting-app-thread -f lighting-app-thread.Makefile -j13
