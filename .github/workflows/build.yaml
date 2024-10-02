@@ -26,9 +26,6 @@ jobs:
           unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
           rm zap-linux-x64.zip
 
-      - run: pwd
-      - run: ls
-
       - name: Move extension to its proper location
         run: |
           mkdir -p ${SISDK_ROOT}/extension/matter_extension
