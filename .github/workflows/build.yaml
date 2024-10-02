@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/siliconlabssoftware/matter_extension
+      image: ghcr.io/siliconlabssoftware/matter_extension:test_arm_commander
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
   
@@ -30,25 +30,6 @@ jobs:
 #        uses: jfrog/setup-jfrog-cli@v4
 #        with:
 #          version: latest
-
-      - name: Install simplicity Commander
-        run: |
-          wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
-          unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
-          rm SimplicityCommander-Linux.zip
-          FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
-          if [ -n "$FILE" ]; then
-            echo "$FILE"
-            tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
-          else
-            echo "File not found"
-          fi
-
-      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
-        id: arm-none-eabi-gcc-action
-        with:
-          release: '12.2.Rel1'
 
       - name: Install ZAP
         run: |
@@ -75,6 +56,4 @@ jobs:
 
       - name: SLC Build
         run: |
-          export POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander
-          export ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/..
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/zigbee-matter-light -f zigbee-matter-light.Makefile -j13
