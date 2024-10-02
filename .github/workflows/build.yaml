@@ -15,6 +15,9 @@ jobs:
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
     steps:
+      - name: List GCC directory
+        run: |
+          ls -ll /usr/bin/arm-none-eabi-gcc
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -23,9 +26,6 @@ jobs:
             third_party/simplicity_sdk
             third_party/wifi_Sdk
             third_party/matter_private
-      - name: List GCC directory
-        run: |
-          ls -la /usr/bin/arm-none-eabi-gcc
 
 #      - name: Jfrog CLI setup
 #        uses: jfrog/setup-jfrog-cli@v4
@@ -34,8 +34,7 @@ jobs:
 
       - name: Install ZAP
         run: |
-          output = python3 slc/scripts/extract_zap.py
-          wget https://github.com/project-chip/zap/releases/download/{output}/zap-linux-x64.zip
+          wget https://github.com/project-chip/zap/releases/download/v2024.08.15/zap-linux-x64.zip
           unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
           rm zap-linux-x64.zip
 
