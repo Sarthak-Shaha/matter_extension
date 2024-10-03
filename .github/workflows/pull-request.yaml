@@ -77,14 +77,16 @@ jobs:
         app: [zigbee-matter]
         board: [brd4187c, brd4116a, brd4117a, brd4118a]
         suffix: [light]
+        addAppComponent: [",matter_zigbee_concurrent;matter",",matter_zigbee_sequential;matter"]
 
-    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
+    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.addAppComponent}} ${{ matrix.board }} 
 
     uses: ./.github/workflows/generate-and-build.yaml
     with:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
+      addAppComponent: ${{ matrix.addAppComponent }}
       family: efr32
 
       
