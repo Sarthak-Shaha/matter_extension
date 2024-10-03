@@ -15,6 +15,9 @@ jobs:
       volumes:
         - "/tmp/bloat_reports:/tmp/bloat_reports"
     steps:
+      - name: List commander files
+        run: |
+          ls -lr /opt/silabs
       - name: Checkout
         uses: actions/checkout@v4
         with:
