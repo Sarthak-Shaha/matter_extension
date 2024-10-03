@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     
     container:
-      image: ghcr.io/siliconlabssoftware/matter_extension_dependencies:test_arm_commander
+      image: ghcr.io/siliconlabssoftware/matter_extension_dependencies:sisdkv2024.06.2_wifi_sdkv3.3.2
   
     steps:
       - name: Checkout
