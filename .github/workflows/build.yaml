@@ -45,6 +45,5 @@ jobs:
 
       - name: SLC Build
         run: |
-          chmod u+x ${POST_BUILD_EXE}
-          export POST_BUILD_EXE=${POST_BUILD_EXE}
+          export POST_BUILD_EXE=${POST_BUILD_EXE}/commander/commander
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting -f lighting-app-thread.Makefile -j13
