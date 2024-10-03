@@ -86,7 +86,7 @@ jobs:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
-      addAppComponent: ","${{ matrix.addAppComponent }}
+      addAppComponent: ,${{ matrix.addAppComponent }}
       family: efr32
 
     
