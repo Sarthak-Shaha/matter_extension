@@ -36,7 +36,6 @@ jobs:
 
       - name: SLC Generate
         run: |
-          slc configuration -gcc ${ARM_GCC_DIR}/bin
           export STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64
           slc configuration --sdk /opt/silabs/simplicity_sdk
           slc signature trust  --extension-path "/opt/silabs/simplicity_sdk/extension/matter_extension/"
@@ -45,5 +44,4 @@ jobs:
 
       - name: SLC Build
         run: |
-          export POST_BUILD_EXE=${POST_BUILD_EXE}/commander/commander
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting -f lighting-app-thread.Makefile -j13
