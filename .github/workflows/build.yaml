@@ -18,6 +18,7 @@ jobs:
     steps:
       - name: list commander
         run: ls -lR /opt/silabs/SimplicityCommander
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -44,5 +45,5 @@ jobs:
 
       - name: SLC Build
         run: |
-          export POST_BUILD_EXE=/opt/silabs/SimplicityCommander/commander/commander
+          export POST_BUILD_EXE=/opt/silabs/SimplicityCommander/commander
           make all -C /opt/silabs/simplicity_sdk/extension/matter_extension/brd4187c/lighting -f lighting-app-thread.Makefile -j13
