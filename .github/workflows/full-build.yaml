@@ -78,7 +78,7 @@ jobs:
         app: [zigbee-matter]
         board: [brd4187c, brd4116a, brd4117a, brd4118a]
         suffix: [light]
-        addAppComponent: [",matter_zigbee_concurrent;matter",",matter_zigbee_sequential;matter"]
+        addAppComponent: [",matter_zigbee_concurrent\;matter",",matter_zigbee_sequential\;matter"]
 
     name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.addAppComponent}} ${{ matrix.board }} 
 
