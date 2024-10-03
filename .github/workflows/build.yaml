@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: List commander files
         run: |
-          ls -lr /opt/silabs
+          ls -lR /opt/silabs
       - name: Checkout
         uses: actions/checkout@v4
         with:
