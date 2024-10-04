@@ -61,7 +61,7 @@ jobs:
       - name: Create string out of additional components
         if: ${{ inputs.addAppComponent != '' }}
         run: 
-          echo "ADD_APP_COMPONENT_STRING=${ADD_APP_COMPONENT_STRING}${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+          echo "ADD_APP_COMPONENT_STRING=${ADD_APP_COMPONENT_STRING},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
 
       - name: Create string out of removed components
         if: ${{ inputs.removeAppComponent != '' }}
