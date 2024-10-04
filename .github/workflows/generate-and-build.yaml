@@ -4,16 +4,16 @@ on:
   workflow_call:
     inputs:
       app:
-        required: false
+        required: true
         type: string
       board:
-        required: false
+        required: true
         type: string
       suffix:
-        required: false
+        required: true
         type: string
       family:
-        required: false
+        required: true
         type: string
       addAppComponent:
         required: false
@@ -35,11 +35,6 @@ jobs:
         with:
           submodules: 'true'
 # TODO don't need to check out all submodules
-      - name: Create string out of additional components
-        run: |
-          echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
-          echo "REMOVE_APP_COMPONENT_STRING=--without ${{ inputs.removeAppComponent }}" >> $GITHUB_ENV
-
 
       - name: Install tools
         uses: ./.github/actions/install-tools
@@ -60,6 +55,15 @@ jobs:
           slc signature trust --extension-path "${WIFI_SDK_ROOT}"
           slc signature trust --sdk ${SISDK_ROOT}
 
+      - name: Create string out of additional components
+        run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}" >> $GITHUB_ENV
+        if: ${{ inputs.addAppComponent != '' }}
+        run: 
+          echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+
+      - name: Create string out of removed components
+        if: ${{ inputs.removeAppComponent != '' }}
+        run: echo "REMOVE_APP_COMPONENT_STRING=--without ${{ inputs.removeAppComponent }}" >> $GITHUB_ENV
 
       - name: SLC Generate
         run: |
