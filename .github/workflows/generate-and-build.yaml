@@ -15,9 +15,6 @@ on:
       family:
         required: false
         type: string
-      extension:
-        required: false
-        type: string
       addAppComponent:
         required: false
         type: string
@@ -40,8 +37,8 @@ jobs:
 # TODO don't need to check out all submodules
       - name: Create string out of additional components
         run: |
-          echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
-          echo "REMOVE_APP_COMPONENT_STRING=--without ${{ inputs.removeAppComponent }}"
+          echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+          echo "REMOVE_APP_COMPONENT_STRING=--without ${{ inputs.removeAppComponent }}" >> $GITHUB_ENV
 
 
       - name: Install tools
