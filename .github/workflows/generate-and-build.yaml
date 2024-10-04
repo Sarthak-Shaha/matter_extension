@@ -40,7 +40,8 @@ jobs:
 # TODO don't need to check out all submodules
       - name: Create string out of additional components
         run: |
-          echo "ADD_APP_COMPONENT_STRING=${{ inputs.board }}${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+          echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+          echo "REMOVE_APP_COMPONENT_STRING=--without ${{ inputs.removeAppComponent }}"
 
 
       - name: Install tools
@@ -65,7 +66,7 @@ jobs:
 
       - name: SLC Generate
         run: |
-          slc generate --daemon -d ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p $MATTER_EXTN_ROOT/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp --with ${ADD_APP_COMPONENT_STRING}  ${{ inputs.removeAppComponent }} --generator-timeout=180
+          slc generate --daemon -d ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p $MATTER_EXTN_ROOT/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp ${ADD_APP_COMPONENT_STRING} ${REMOVE_APP_COMPONENT_STRING} --generator-timeout=180
 
       - name: Build
         run: |

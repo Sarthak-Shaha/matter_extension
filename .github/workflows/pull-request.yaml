@@ -86,7 +86,8 @@ jobs:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
-      addAppComponent: ${{ matrix.addAppComponent }}
+      addAppComponent: ${{ matrix.addAppComponent }},matter_no_debug;matter
+      removeAppComponent: matter_lcd;matter
       family: efr32
 
     
