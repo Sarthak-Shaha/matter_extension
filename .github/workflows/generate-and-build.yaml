@@ -38,6 +38,10 @@ jobs:
         with:
           submodules: 'true'
 # TODO don't need to check out all submodules
+      - name: Create string out of additional components
+        run: |
+          echo "ADD_APP_COMPONENT_STRING=${{ inputs.board }}${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+
 
       - name: Install tools
         uses: ./.github/actions/install-tools
@@ -57,6 +61,8 @@ jobs:
           slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
           slc signature trust --extension-path "${WIFI_SDK_ROOT}"
           slc signature trust --sdk ${SISDK_ROOT}
+
+
 
       - name: SLC Generate
         run: |
