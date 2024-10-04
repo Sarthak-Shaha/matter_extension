@@ -68,7 +68,7 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: siwx917
-      extension: \;wiseconnect3_sdk
+      extension: wiseconnect3_sdk
 
   cmp:
     strategy:

@@ -40,7 +40,7 @@ jobs:
 # TODO don't need to check out all submodules
       - name: Create string out of additional components
         run: |
-          echo "ADD_APP_COMPONENT_STRING=${{ inputs.board }}${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
+          echo "ADD_APP_COMPONENT_STRING=${{ inputs.board }};${{ inputs.extension }},${{ inputs.addAppComponent }}" >> $GITHUB_ENV
 
 
       - name: Install tools
