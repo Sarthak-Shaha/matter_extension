@@ -89,7 +89,7 @@ jobs:
       addAppComponent: ${{ matrix.addAppComponent }}
       family: efr32
 
-  copy-contents:
+  copy-sources:
     strategy:
       matrix:
         include:
@@ -119,5 +119,6 @@ jobs:
       board_extension: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       family: efr32
+      optionalSlcParams: copy-sources
 
     
