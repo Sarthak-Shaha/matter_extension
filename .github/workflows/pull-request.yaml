@@ -93,24 +93,29 @@ jobs:
     strategy:
       matrix:
         include:
-          - app: thermostat
+          - app: sensor-app
             board: brd4187c
             suffix: thread
-          - app: window-app
+            family: efr32
+          - app: thermostat
             board: brd4187c
             suffix: rs911x
+            family: efr32
           - app: lock-app
             board: brd4187c
             suffix: wf200
-          - app: sensor-app
+            family: efr32
+          - app: window-app
             board: brd4187c
             suffix: 917-ncp
+            family: efr32
           - board: brd4338a
             board_extension: ;wiseconnect3_sdk
             app: sensor-app
-            suffix: 917-soc            
+            suffix: 917-soc
+            family: siwx917            
 
-    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.addAppComponent}} ${{ matrix.board }} 
+    name: copy-sources ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.addAppComponent}} ${{ matrix.board }} 
 
     uses: ./.github/workflows/generate-and-build.yaml
     with:
@@ -118,7 +123,8 @@ jobs:
       board: ${{ matrix.board }}
       board_extension: ${{ matrix.board_extension }}
       suffix: ${{ matrix.suffix }}
-      family: efr32
+      family: ${{ matrix.family }}
       optionalSlcParams: copy-sources
 
     
+      
