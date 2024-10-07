@@ -15,33 +15,33 @@ jobs:
         # Build only specific combinations of app, board and suffix
         include:
           # Thread boards that have thermostats
-          - board: brd4187c
-            app: thermostat
+          - app: thermostat
+            board: brd4187c
             suffix: thread
-          - board: brd4316a
-            app: thermostat
+          - app: thermostat
+            board: brd4316a
             suffix: thread
           # Wi-Fi NCP combos
-          - board: brd4187c
-            app: thermostat
+          - app: thermostat
+            board: brd4187c
             suffix: 917-ncp
-          - board: brd4187c
-            app: thermostat
+          - app: thermostat
+            board: brd4187c
             suffix: rs911x
-          - board: brd4187c
-            app: thermostat
+          - app: thermostat
+            board: brd4187c
             suffix: wf200
-          - board: brd4187c
-            app: lock-app
+          - app: lock-app
+            board: brd4187c
             suffix: 917-ncp
-          - board: brd4187c
-            app: lock-app
+          - app: lock-app
+            board: brd4187c
             suffix: rs911x
-          - board: brd4187c
-            app: lock-app
+          - app: lock-app
+            board: brd4187c
             suffix: wf200  
-          - board: brd4187c
-            app: window-app
+          - app: window-app
+            board: brd4187c
             suffix: 917-ncp          
 
     name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
@@ -57,7 +57,7 @@ jobs:
       matrix:
         # Every app builds for every board and suffix
         app: [dishwasher-app, light-switch-app, lighting-app, lock-app, onoff-plug-app, sensor-app, window-app]
-        board: [brd4338a]
+        board: [brd4338a, brd4342a]
         suffix: [917-soc]
 
     name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.board }} 
@@ -87,6 +87,37 @@ jobs:
       board: ${{ matrix.board }}
       suffix: ${{ matrix.suffix }}
       addAppComponent: ${{ matrix.addAppComponent }}
+      family: efr32
+
+  copy-contents:
+    strategy:
+      matrix:
+        include:
+          - app: thermostat
+            board: brd4187c
+            suffix: thread
+          - app: window-app
+            board: brd4187c
+            suffix: rs911x
+          - app: lock-app
+            board: brd4187c
+            suffix: wf200
+          - app: sensor-app
+            board: brd4187c
+            suffix: 917-ncp
+          - board: brd4338a
+            board_extension: ;wiseconnect3_sdk
+            app: sensor-app
+            suffix: 917-soc            
+
+    name: ${{ matrix.app }}-${{ matrix.suffix }} ${{ matrix.addAppComponent}} ${{ matrix.board }} 
+
+    uses: ./.github/workflows/generate-and-build.yaml
+    with:
+      app: ${{ matrix.app }}
+      board: ${{ matrix.board }}
+      board_extension: ${{ matrix.board }}
+      suffix: ${{ matrix.suffix }}
       family: efr32
 
     

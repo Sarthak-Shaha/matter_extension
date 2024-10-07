@@ -24,6 +24,9 @@ on:
       removeAppComponent:
         required: false
         type: string
+      optionalSlcParams:
+        required: false
+        type: string
 
 jobs:
   build:
