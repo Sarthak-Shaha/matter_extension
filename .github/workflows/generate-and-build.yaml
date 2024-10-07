@@ -9,6 +9,9 @@ on:
       board:
         required: true
         type: string
+      board_extension:
+        required: false
+        type: string
       suffix:
         required: true
         type: string
@@ -56,7 +59,7 @@ jobs:
           slc signature trust --sdk ${SISDK_ROOT}
 
       - name: Default additional component string
-        run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}" >> $GITHUB_ENV
+        run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
 
       - name: Create string out of additional components
         if: ${{ inputs.addAppComponent != '' }}
