@@ -116,7 +116,7 @@ jobs:
     with:
       app: ${{ matrix.app }}
       board: ${{ matrix.board }}
-      board_extension: ${{ matrix.board }}
+      board_extension: ${{ matrix.board_extension }}
       suffix: ${{ matrix.suffix }}
       family: efr32
       optionalSlcParams: copy-sources
