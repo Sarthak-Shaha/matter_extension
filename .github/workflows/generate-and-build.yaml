@@ -38,8 +38,8 @@ jobs:
       - name: Run setup script
         shell: bash
         run: |
-          pip3 install dload
-          pip3 install python-dotenv  
+          apt install dload
+          apt install python-dotenv  
           python3 ${{ github.workspace }}/slc/sl_setup_env.py
 
       - name: Default additional component string
