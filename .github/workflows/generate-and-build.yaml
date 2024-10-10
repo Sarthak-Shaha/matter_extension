@@ -31,9 +31,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    container:
-      image: ghcr.io/siliconlabssoftware/matter_extension_dependencies:SiSDK-2024.06.2_WiFiSDK-3.3.1
   
     steps:
       - name: Checkout
@@ -44,13 +41,20 @@ jobs:
 
       - name: Install tools
         uses: ./.github/actions/install-tools
+      
+      - name: Set up SiSDK
+        run: |
+          SISDK_ROOT=$(pwd)/third_party/simplicity_sdk
+          echo "SISDK_ROOT=${SISDK_ROOT}" >> $GITHUB_ENV
 
       - name: Copy matter_extension to simplicity_sdk and set Matter Extension Environment Variable
         run: |
           mkdir -p ${SISDK_ROOT}/extension
           cd ..
           cp -r matter_extension ${SISDK_ROOT}/extension
+          cp -r third_party/wifi_sdk ${SISDK_ROOT}/extension
           echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
+          echo "WIFI_SDK_ROOT=${SISDK_ROOT}extension/wifi_sdk" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
 
       - name: SLC Trust
