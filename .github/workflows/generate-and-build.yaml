@@ -62,8 +62,6 @@ jobs:
 
       - name: SLC Trust
         run: |
-          export "SLC_PATH=${{ env.SLC_PATH }}"
-          echo "${{ env.SLC_PATH }}" >> $GITHUB_PATH
           slc configuration --sdk ${SISDK_ROOT}
           slc signature trust --development-trust
           slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
