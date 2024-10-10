@@ -54,8 +54,8 @@ jobs:
         run: |
           mkdir -p ${SISDK_ROOT}/extension
           cd ..
-          cp -r matter_extension ${SISDK_ROOT}/extension
-          cp -r third_party/wifi_sdk ${SISDK_ROOT}/extension
+          ln -s matter_extension ${SISDK_ROOT}/extension/matter_extension
+          ln -s third_party/wifi_sdk ${SISDK_ROOT}/extension/wifi_sdk
           echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
           echo "WIFI_SDK_ROOT=${SISDK_ROOT}extension/wifi_sdk" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=$(pwd)/zap-linux-x64" >> $GITHUB_ENV
