@@ -61,11 +61,11 @@ jobs:
         run: |
           export "PATH=$PATH:${{ env.SLC_PATH }}"
           export "SLC_PATH=${{ env.SLC_PATH }}"
-          $(SLC_PATH)/slc configuration --sdk ${SISDK_ROOT}
-          $(SLC_PATH)/slc signature trust --development-trust
-          $(SLC_PATH)/slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
-          $(SLC_PATH)/slc signature trust --extension-path "${WIFI_SDK_ROOT}"
-          $(SLC_PATH)/slc signature trust --sdk ${SISDK_ROOT}
+          ${SLC_PATH}/slc configuration --sdk ${SISDK_ROOT}
+          ${SLC_PATH}/slc signature trust --development-trust
+          ${SLC_PATH}/slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
+          ${SLC_PATH}/slc signature trust --extension-path "${WIFI_SDK_ROOT}"
+          ${SLC_PATH}/slc signature trust --sdk ${SISDK_ROOT}
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
