@@ -60,11 +60,11 @@ jobs:
       - name: SLC Trust
         run: |
           export SLC_PATH=${{ env.SLC_PATH }}
-          SLC_PATH configuration --sdk ${SISDK_ROOT}
-          SLC_PATH signature trust --development-trust
-          SLC_PATH signature trust --extension-path "${MATTER_EXTN_ROOT}"
-          SLC_PATH signature trust --extension-path "${WIFI_SDK_ROOT}"
-          SLC_PATH signature trust --sdk ${SISDK_ROOT}
+          $(SLC_PATH) configuration --sdk ${SISDK_ROOT}
+          $(SLC_PATH) signature trust --development-trust
+          $(SLC_PATH) signature trust --extension-path "${MATTER_EXTN_ROOT}"
+          $(SLC_PATH) signature trust --extension-path "${WIFI_SDK_ROOT}"
+          $(SLC_PATH) signature trust --sdk ${SISDK_ROOT}
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
@@ -80,7 +80,7 @@ jobs:
 
       - name: SLC Generate
         run: |
-          SLC_PATH generate --daemon -d ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p $MATTER_EXTN_ROOT/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp ${ADD_APP_COMPONENT_STRING} ${REMOVE_APP_COMPONENT_STRING} --generator-timeout=180
+          $(SLC_PATH) generate --daemon -d ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -p $MATTER_EXTN_ROOT/slc/sample-app/${{ inputs.app }}/${{ inputs.family }}/${{ inputs.app }}-${{ inputs.suffix }}.slcp ${ADD_APP_COMPONENT_STRING} ${REMOVE_APP_COMPONENT_STRING} --generator-timeout=180
 
       - name: Build
         run: |
