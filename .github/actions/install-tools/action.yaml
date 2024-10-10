@@ -8,18 +8,18 @@ runs:
       shell: bash
       run: |
         wget https://github.com/project-chip/zap/releases/download/v2024.08.27/zap-linux-x64.zip
-        unzip zap-linux-x64.zip -d /opt/silabs/zap-linux-x64
+        unzip zap-linux-x64.zip -d $(pwd)/zap-linux-x64
         rm zap-linux-x64.zip
     - name: Install Simplicity Commander
       shell: bash
       run: |
         wget https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
-        unzip SimplicityCommander-Linux.zip -d /opt/silabs/simplicity-commander
+        unzip SimplicityCommander-Linux.zip -d $(pwd)/simplicity-commander
         rm SimplicityCommander-Linux.zip
-        FILE=$(find /opt/silabs/simplicity-commander/ -name "*Commander_linux_x86_64*")
+        FILE=$(find $(pwd)/simplicity-commander -name "*Commander_linux_x86_64*")
         if [ -n "$FILE" ]; then
           echo "$FILE"
-          tar -xjvf "$FILE" -C /opt/silabs/simplicity-commander
+          tar -xjvf "$FILE" -C $(pwd)/simplicity-commander
         else
           echo "File not found"
         fi
@@ -33,5 +33,5 @@ runs:
       shell: bash
       run: |
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
-        echo "POST_BUILD_EXE=/opt/silabs/simplicity-commander/commander/commander" >> $GITHUB_ENV
+        echo "POST_BUILD_EXE=$(pwd)/simplicity-commander" >> $GITHUB_ENV
 

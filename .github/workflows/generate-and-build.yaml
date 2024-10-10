@@ -37,6 +37,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
+      
+      - name: echo paths
+        run: ls -laR
 # TODO don't need to check out all submodules
 
       - name: Install tools
@@ -55,7 +58,7 @@ jobs:
           cp -r third_party/wifi_sdk ${SISDK_ROOT}/extension
           echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
           echo "WIFI_SDK_ROOT=${SISDK_ROOT}extension/wifi_sdk" >> $GITHUB_ENV
-          echo "STUDIO_ADAPTER_PACK_PATH=/opt/silabs/zap-linux-x64" >> $GITHUB_ENV
+          echo "STUDIO_ADAPTER_PACK_PATH=$(pwd)/zap-linux-x64" >> $GITHUB_ENV
 
       - name: SLC Trust
         run: |
@@ -83,6 +86,8 @@ jobs:
 
       - name: Build
         run: |
+          export ARM_GCC_DIR=${{ env.ARM_GCC_DIR }}
+          export POST_BUILD_EXE=${{ env.POST_BUILD_EXE }}
           make all -C ${MATTER_EXTN_ROOT}/${{ inputs.board }}/${{ inputs.app }}-${{ inputs.suffix }} -f ${{ inputs.app }}-${{ inputs.suffix }}.Makefile -j8
 
       - uses: actions/upload-artifact@v4
