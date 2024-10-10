@@ -45,8 +45,6 @@ runs:
       shell: bash
       run: |
         echo "JAVA17_HOME=$(pwd)/amazon-corretto-17.0.8.8.1-linux-x64" >> $GITHUB_ENV
-        echo "${{ env.JAVA17_HOME}}/bin" >> $GITHUB_PATH
-        echo "${{ env.SLC_PATH}}" >> $GITHUB_PATH
         echo "SLC_PATH=$(pwd)/slc_cli/slc " >> $GITHUB_ENV
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
         echo "POST_BUILD_EXE=$(pwd)/simplicity-commander/commander/commander" >> $GITHUB_ENV

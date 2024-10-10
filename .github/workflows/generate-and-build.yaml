@@ -61,7 +61,10 @@ jobs:
         run: ls -laR $(pwd)
 
       - name: SLC Trust
+        shell: bash
         run: |
+          echo "${{ env.JAVA17_HOME}}/bin" >> $GITHUB_PATH
+          echo "${{ env.SLC_PATH}}" >> $GITHUB_PATH
           echo "SLC_PATH=${{ env.SLC_PATH }} " >> $GITHUB_ENV
           echo "JAVA17_HOME=${{ env.JAVA17_HOME }}" >> $GITHUB_ENV
           ${SLC_PATH} configuration --sdk ${SISDK_ROOT}
