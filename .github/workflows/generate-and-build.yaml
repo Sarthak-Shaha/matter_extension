@@ -64,7 +64,6 @@ jobs:
         run: |
           echo "SLC_PATH=${{ env.SLC_PATH }} " >> $GITHUB_ENV
           echo "JAVA17_HOME=${{ env.JAVA17_HOME }}" >> $GITHUB_ENV
-          echo "${{ JAVA17_HOME}}" >> $GITHUB_PATH
           ${SLC_PATH} configuration --sdk ${SISDK_ROOT}
           ${SLC_PATH}  signature trust --development-trust
           ${SLC_PATH}  signature trust --extension-path "${MATTER_EXTN_ROOT}"
