@@ -58,7 +58,7 @@ jobs:
           echo "STUDIO_ADAPTER_PACK_PATH=$(pwd)/zap-linux-x64" >> $GITHUB_ENV
       
       - name: Ls SLC CLI
-        run: ls -l $(pwd)
+        run: ls -laR $(pwd)
 
       - name: SLC Trust
         run: |
