@@ -38,7 +38,7 @@ runs:
     - name: Set ARM_GCC_DIR and POST_BUILD_EXE
       shell: bash
       run: |
-        echo "SLC_PATH=$(pwd)/slc_cli " >> $GITHUB_ENV
+        echo "SLC_PATH=$(pwd)/slc_cli/slc " >> $GITHUB_ENV
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
         echo "POST_BUILD_EXE=$(pwd)/simplicity-commander/commander/commander" >> $GITHUB_ENV
 
