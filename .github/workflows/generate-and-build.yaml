@@ -31,47 +31,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
-# TODO don't need to check out all submodules
-
-      - name: Install tools
-        uses: ./.github/actions/install-tools
-      
-      - name: Set up SiSDK
-        run: |
-          SISDK_ROOT=$(pwd)/third_party/simplicity_sdk
-          echo "SISDK_ROOT=${SISDK_ROOT}" >> $GITHUB_ENV
-
-      - name: Copy matter_extension to simplicity_sdk and set Matter Extension Environment Variable
-        run: |
-          mkdir -p ${SISDK_ROOT}/extension
-          cd ..
-          ln -s matter_extension ${SISDK_ROOT}/extension/matter_extension
-          ln -s third_party/wifi_sdk ${SISDK_ROOT}/extension/wifi_sdk
-          echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
-          echo "WIFI_SDK_ROOT=${SISDK_ROOT}extension/wifi_sdk" >> $GITHUB_ENV
-          echo "STUDIO_ADAPTER_PACK_PATH=$(pwd)/zap-linux-x64" >> $GITHUB_ENV
-      
-      - name: Ls SLC CLI
-        run: ls -laR $(pwd)
-
-      - name: SLC Trust
+      - name: Run setup script
         shell: bash
         run: |
-          echo "${{ env.JAVA17_HOME}}/bin" >> $GITHUB_PATH
-          echo "${{ env.SLC_PATH}}" >> $GITHUB_PATH
-          echo "SLC_PATH=${{ env.SLC_PATH }} " >> $GITHUB_ENV
-          echo "JAVA17_HOME=${{ env.JAVA17_HOME }}" >> $GITHUB_ENV
-          slc  --java-location=${JAVA17_HOME} configuration --sdk ${SISDK_ROOT}
-          slc  --java-location=${JAVA17_HOME}  --java-location=${"JAVA17_HOME} signature trust --development-trust
-          slc  --java-location=${JAVA17_HOME}  signature trust --extension-path "${MATTER_EXTN_ROOT}"
-          slc  --java-location=${JAVA17_HOME}  signature trust --extension-path "${WIFI_SDK_ROOT}"
-          slc  --java-location=${JAVA17_HOME}  signature trust --sdk ${SISDK_ROOT}
+          python3 slc/sl_setup_env.py
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
