@@ -42,7 +42,7 @@ Steps for directly cherry-picking CSA Matter repo commits into your environment:
 ## Getting Started with Command Line Development
 
 We provide a set of scripts to set up an environment and build Matter apps in a command line. Silicon Labs Matter leverages an internal tool called Silicon Labs Configurator Command-line Interface (SLC-CLI). SLC-CLI comes pre-integrated in the Simplicity Studio, and is automatically installed by the scripts discussed below; it can be manually installed from here:  [SLC-CLI download](https://www.silabs.com/developers/simplicity-studio/configurator-command-line-interface). This repo can also be used in the Silicon Labs proprietary IDE [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
- 
+
 
 ### Setting up the Environment
 
