@@ -56,6 +56,9 @@ jobs:
           echo "MATTER_EXTN_ROOT=${SISDK_ROOT}extension/matter_extension" >> $GITHUB_ENV
           echo "WIFI_SDK_ROOT=${SISDK_ROOT}extension/wifi_sdk" >> $GITHUB_ENV
           echo "STUDIO_ADAPTER_PACK_PATH=$(pwd)/zap-linux-x64" >> $GITHUB_ENV
+      
+      - name: Ls SLC CLI
+        run: ls -l $(pwd)
 
       - name: SLC Trust
         run: |

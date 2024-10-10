@@ -40,5 +40,5 @@ runs:
       run: |
         echo "SLC_PATH=$(pwd)/slc_cli_linux " >> $GITHUB_ENV
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
-        echo "POST_BUILD_EXE=$(pwd)/simplicity-commander" >> $GITHUB_ENV
+        echo "POST_BUILD_EXE=$(pwd)/simplicity-commander/commander/commander" >> $GITHUB_ENV
 
