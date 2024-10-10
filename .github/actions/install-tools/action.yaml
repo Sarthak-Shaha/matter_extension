@@ -30,6 +30,7 @@ runs:
         release: '12.2.Rel1'
 
     - name: install SLC CLI
+      shell: bash
       run: |
         wget wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
         tar unzip ./slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
