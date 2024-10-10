@@ -7,6 +7,7 @@ runs:
     - name: install SLC CLI
       shell: bash
       run: |
+        rm -rf ~/.uc 
         wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
         unzip slc_cli_linux.zip -d $(pwd)
         rm slc_cli_linux.zip
