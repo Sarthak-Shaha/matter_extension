@@ -32,10 +32,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Run setup script
         shell: bash
         run: |
-          ls -la  ${{ github.workspace }}
+          python3 ${{ github.workspace }}/slc/sl_setup_env.py
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
