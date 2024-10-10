@@ -34,13 +34,12 @@ runs:
       run: |
         wget wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
         tar unzip ./slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
-        rm slc_cli_linux.zip
-        echo "SLC_PATH=$(pwd)/slc_cli_linux " >> $GITHUB_ENV
+        rm $(pwd)/slc_cli_linux.zip
 
     - name: Set ARM_GCC_DIR and POST_BUILD_EXE
       shell: bash
       run: |
-        echo "PATH="${PATH}:/opt/silabs/slc_cli/" >> $GITHUB_ENV"
+        echo "SLC_PATH=$(pwd)/slc_cli_linux " >> $GITHUB_ENV
         echo "ARM_GCC_DIR=${{ steps.arm-none-eabi-gcc-action.outputs.path }}/.." >> $GITHUB_ENV
         echo "POST_BUILD_EXE=$(pwd)/simplicity-commander" >> $GITHUB_ENV
 
