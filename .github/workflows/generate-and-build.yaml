@@ -60,6 +60,7 @@ jobs:
       - name: SLC Trust
         run: |
           export "PATH=$PATH:${{ env.SLC_PATH }}"
+          export "SLC_PATH=${{ env.SLC_PATH }}"
           $(SLC_PATH)/slc configuration --sdk ${SISDK_ROOT}
           $(SLC_PATH)/slc signature trust --development-trust
           $(SLC_PATH)/slc signature trust --extension-path "${MATTER_EXTN_ROOT}"
