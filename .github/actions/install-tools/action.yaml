@@ -33,7 +33,7 @@ runs:
       shell: bash
       run: |
         wget wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
-        tar unzip ./slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
+        unzip slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
         rm $(pwd)/slc_cli_linux.zip
 
     - name: Set ARM_GCC_DIR and POST_BUILD_EXE
