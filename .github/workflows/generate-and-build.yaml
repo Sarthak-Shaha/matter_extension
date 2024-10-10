@@ -35,12 +35,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run setup script
-        shell: bash
-        run: |
-          apt install dload
-          apt install python-dotenv  
-          python3 ${{ github.workspace }}/slc/sl_setup_env.py
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo pip3 install dload python-dotenv 
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
