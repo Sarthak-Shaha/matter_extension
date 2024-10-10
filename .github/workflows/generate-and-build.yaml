@@ -37,7 +37,10 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: sudo pip3 install dload python-dotenv 
+        run: |
+         python3 -m venv $pwd/venv
+         source $pwd/venv/bin/activate
+         pip install dload python-dotenv 
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
