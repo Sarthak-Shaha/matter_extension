@@ -4,6 +4,12 @@ description: Checkout submodules
 runs:
   using: "composite"
   steps:
+    - name: install SLC CLI
+      shell: bash
+      run: |
+        wget wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
+        unzip slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
+        rm slc_cli_linux.zip
     - name: Install ZAP
       shell: bash
       run: |
@@ -28,13 +34,6 @@ runs:
       id: arm-none-eabi-gcc-action
       with:
         release: '12.2.Rel1'
-
-    - name: install SLC CLI
-      shell: bash
-      run: |
-        wget wget https://www.silabs.com/documents/login/software/slc_cli_linux.zip 
-        unzip slc_cli_linux.zip -d $(pwd)/slc_cli_linux 
-        rm $(pwd)/slc_cli_linux.zip
 
     - name: Set ARM_GCC_DIR and POST_BUILD_EXE
       shell: bash
