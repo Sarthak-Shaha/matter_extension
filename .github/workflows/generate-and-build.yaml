@@ -35,8 +35,8 @@ jobs:
       - name: Run setup script
         shell: bash
         run: |
-          ls -la  $(pwd)/slc
-          python3 $(pwd)/slc/sl_setup_env.py
+          ls -la  ${{ github.workspace }}/slc
+          python3 ${{ github.workspace }}/slc/sl_setup_env.py
 
       - name: Default additional component string
         run: echo "ADD_APP_COMPONENT_STRING=--with ${{ inputs.board }}${{ inputs.board_extension }}" >> $GITHUB_ENV
